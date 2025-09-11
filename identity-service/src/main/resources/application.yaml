@@ -1,4 +1,4 @@
-server:
+xserver:
   port: 8082
   servlet:
     context-path: /identity
@@ -13,3 +13,5 @@ spring:
     show-sql: true
 jwt:
   signerKey: "SgVPo7RxnbP1N+jw9D37irwm2B5FXw5xJmgRMPNkVCkx/8SNT0MUb2xzqx3ZSicc"
+  valid-duration: 3600 #in seconds (Thời gian hiệu lực của token)
+  refreshable-duration: 360000 #in seconds (Thời gian hiệu lực của token có thể refresh tính từ thời điểm token hết hạn)
