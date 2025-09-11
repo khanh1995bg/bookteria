@@ -3,6 +3,7 @@ package com.bookteria.identity_service.controller;
 import com.bookteria.identity_service.dto.request.AuthenticationRequest;
 import com.bookteria.identity_service.dto.request.IntrospectRequest;
 import com.bookteria.identity_service.dto.request.LogoutRequest;
+import com.bookteria.identity_service.dto.request.RefreshTokenRequest;
 import com.bookteria.identity_service.dto.response.ApiResponse;
 import com.bookteria.identity_service.dto.response.AuthenticationResponse;
 import com.bookteria.identity_service.dto.response.IntrospectResponse;
@@ -29,6 +30,15 @@ public class AuthenticationController {
     @PostMapping("/token")
     ApiResponse<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request) {
         var result = authenticationService.authenticated(request);
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(result)
+                .build();
+    }
+
+    @PostMapping("/refresh")
+    ApiResponse<AuthenticationResponse> refreshToken(@RequestBody RefreshTokenRequest request)
+            throws ParseException, JOSEException {
+        var result = authenticationService.refreshToken(request);
         return ApiResponse.<AuthenticationResponse>builder()
                 .result(result)
                 .build();

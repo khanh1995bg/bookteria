@@ -3,6 +3,7 @@ package com.bookteria.identity_service.service;
 import com.bookteria.identity_service.dto.request.AuthenticationRequest;
 import com.bookteria.identity_service.dto.request.IntrospectRequest;
 import com.bookteria.identity_service.dto.request.LogoutRequest;
+import com.bookteria.identity_service.dto.request.RefreshTokenRequest;
 import com.bookteria.identity_service.dto.response.AuthenticationResponse;
 import com.bookteria.identity_service.dto.response.IntrospectResponse;
 import com.bookteria.identity_service.entity.InvalidatedToken;
@@ -94,6 +95,35 @@ public class AuthenticationService {
                 .build();
 
         invalidatedTokenRepository.save(invalidatedToken);
+    }
+
+    public AuthenticationResponse refreshToken(RefreshTokenRequest request)
+            throws ParseException, JOSEException {
+//        Kiểm tra lại hiệu lực của token
+        var signJwt = verifyToken(request.getToken());
+
+        var jti = signJwt.getJWTClaimsSet().getJWTID();
+
+        var expiryTime = signJwt.getJWTClaimsSet().getExpirationTime();
+
+//        Thực hiện đưa token vào table logout
+        InvalidatedToken invalidatedToken = InvalidatedToken.builder()
+                .id(jti)
+                .expiryTime(expiryTime)
+                .build();
+
+        invalidatedTokenRepository.save(invalidatedToken);
+
+//        Create new TOKEN
+        var username = signJwt.getJWTClaimsSet().getSubject();
+//        Trường hợp refresh token sẽ luôn có thông tin user nhưng có thể lỗi kết nối nên sẽ throw ra mã lỗi UNAUTHENTICATED
+        var user = userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+        var generateToken = generateToken(user);
+
+        return AuthenticationResponse.builder()
+                .token(generateToken)
+                .authenticated(true)
+                .build();
     }
 
 
