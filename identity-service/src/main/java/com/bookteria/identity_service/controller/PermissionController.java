@@ -1,16 +1,18 @@
 package com.bookteria.identity_service.controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.*;
+
 import com.bookteria.identity_service.dto.request.PermissionRequest;
 import com.bookteria.identity_service.dto.response.ApiResponse;
 import com.bookteria.identity_service.dto.response.PermissionResponse;
 import com.bookteria.identity_service.service.PermissionService;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/permissions")

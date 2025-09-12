@@ -1,26 +1,26 @@
 package com.bookteria.identity_service.validator;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
-import lombok.extern.slf4j.Slf4j;
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
+
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class DobValidator implements ConstraintValidator<DobConstraint, LocalDate> {
     private int min;
 
-//    Hàm xử lý data có đúng hay
+    //    Hàm xử lý data có đúng hay
     @Override
     public boolean isValid(LocalDate value, ConstraintValidatorContext constraintValidatorContext) {
-        if(Objects.isNull(value))
-            return true;
+        if (Objects.isNull(value)) return true;
 
-       long years = ChronoUnit.YEARS.between(value, LocalDate.now());
-       log.info(years + " years is valid " + value);
-       return years >= min;
+        long years = ChronoUnit.YEARS.between(value, LocalDate.now());
+        log.info(years + " years is valid " + value);
+        return years >= min;
     }
 
     @Override

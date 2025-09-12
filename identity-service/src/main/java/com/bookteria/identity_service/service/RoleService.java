@@ -1,19 +1,20 @@
 package com.bookteria.identity_service.service;
 
+import java.util.HashSet;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.bookteria.identity_service.dto.request.RoleRequest;
 import com.bookteria.identity_service.dto.response.RoleResponse;
-import com.bookteria.identity_service.entity.Role;
 import com.bookteria.identity_service.mapper.RoleMapper;
 import com.bookteria.identity_service.repository.PermissionRepository;
 import com.bookteria.identity_service.repository.RoleRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -41,5 +42,4 @@ public class RoleService {
     public void deleteRole(String role) {
         roleRepository.deleteById(role);
     }
-
 }

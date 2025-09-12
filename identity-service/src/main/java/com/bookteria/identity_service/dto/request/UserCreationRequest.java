@@ -1,11 +1,13 @@
 package com.bookteria.identity_service.dto.request;
 
-import com.bookteria.identity_service.validator.DobConstraint;
+import java.time.LocalDate;
+
 import jakarta.validation.constraints.Size;
+
+import com.bookteria.identity_service.validator.DobConstraint;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -14,13 +16,14 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserCreationRequest {
     @Size(min = 3, message = "USERNAME_INVALID")
-     String username;
+    String username;
 
     @Size(min = 8, message = "PASSWORD_INVALID")
-     String password;
-     String firstName;
-     String lastName;
+    String password;
 
-     @DobConstraint(min = 18, message = "INVALID_DOB")
-     LocalDate dob;
+    String firstName;
+    String lastName;
+
+    @DobConstraint(min = 18, message = "INVALID_DOB")
+    LocalDate dob;
 }
