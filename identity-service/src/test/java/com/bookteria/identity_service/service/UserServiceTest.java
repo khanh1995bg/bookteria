@@ -1,0 +1,88 @@
+package com.bookteria.identity_service.service;
+
+import com.bookteria.identity_service.dto.request.UserCreationRequest;
+import com.bookteria.identity_service.dto.response.UserResponse;
+import com.bookteria.identity_service.entity.User;
+import com.bookteria.identity_service.exception.AppException;
+import com.bookteria.identity_service.exception.ErrorCode;
+import com.bookteria.identity_service.repository.UserRepository;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+
+import java.time.LocalDate;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+
+@SpringBootTest
+public class UserServiceTest {
+    @Autowired
+    private UserService userService;
+
+    @MockitoBean
+    private UserRepository userRepository;
+
+    private UserCreationRequest request; //Data đầu vào
+    private UserResponse userResponse; //Data đầu
+    private User user;
+
+    private LocalDate dob;
+
+    @BeforeEach
+    void initData() {
+        dob = LocalDate.of(1995,1, 1);
+        request = UserCreationRequest.builder()
+                .username("khanh06")
+                .password("12345678")
+                .firstName("khanh")
+                .lastName("duy")
+                .dob(dob)
+                .build();
+
+        userResponse = UserResponse.builder()
+                .id("847482dff82")
+                .username("khanh06")
+                .firstName("khanh")
+                .lastName("duy")
+                .dob(dob)
+                .build();
+
+        user = User.builder()
+                .id("847482dff82")
+                .username("khanh06")
+                .firstName("khanh")
+                .lastName("duy")
+                .dob(dob)
+                .build();
+    }
+
+    @Test
+    void createUser_validRequest_success() throws Exception {
+//    GIVEN
+        Mockito.when(userRepository.existsByUsername(anyString())).thenReturn(false);
+        Mockito.when(userRepository.save(any())).thenReturn(user);
+
+//        WHEN
+        var response = userService.createUser(request);
+
+//        THEN
+        Assertions.assertThat(response.getId()).isEqualTo("847482dff82");
+        Assertions.assertThat(response.getUsername()).isEqualTo("khanh06");
+    }
+
+    @Test
+    void createUser_userExisted_fail() {
+//        GIVEN
+       Mockito.when(userRepository.existsByUsername(anyString())).thenReturn(true);
+
+//       WHEN
+      var exception = org.junit.jupiter.api.Assertions.assertThrows(AppException.class,
+              () -> userService.createUser(request));
+      Assertions.assertThat(exception.getErrorCode().getCode()).isEqualTo(ErrorCode.USER_EXISTS.getCode());
+    }
+}
