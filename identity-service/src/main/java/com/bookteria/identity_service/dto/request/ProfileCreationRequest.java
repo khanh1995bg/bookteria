@@ -1,4 +1,4 @@
-package com.bookteria.profile_service.dto.request;
+package com.bookteria.identity_service.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
