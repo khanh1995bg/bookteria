@@ -1,0 +1,8 @@
+
+spring:
+  application:
+    name: api-gateway
+server:
+  port: 8083
+  servlet:
+    context-path: /api-gateway
