@@ -43,10 +43,9 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         //        create ROLE
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
-
-        //        user.setRoles(roles);
+        HashSet<com.bookteria.identity_service.entity.Role> roles = new HashSet<>();
+        roleRepository.findById(Role.USER.name()).ifPresent(roles::add);
+        user.setRoles(roles);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }
