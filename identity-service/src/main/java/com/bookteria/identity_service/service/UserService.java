@@ -3,6 +3,8 @@ package com.bookteria.identity_service.service;
 import java.util.HashSet;
 import java.util.List;
 
+import com.bookteria.identity_service.mapper.ProfileMapper;
+import com.bookteria.identity_service.repository.httpclient.ProfileClient;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,8 +34,10 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
     UserRepository userRepository;
     UserMapper userMapper;
+    ProfileMapper profileMapper;
     PasswordEncoder passwordEncoder;
     RoleRepository roleRepository;
+    ProfileClient profileClient;
 
     public UserResponse createUser(UserCreationRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -43,12 +47,20 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         //        create ROLE
-        HashSet<String> roles = new HashSet<>();
-        roles.add(Role.USER.name());
+        HashSet<com.bookteria.identity_service.entity.Role> roles = new HashSet<>();
+        roleRepository.findById(Role.USER.name()).ifPresent(roles::add);
 
-        //        user.setRoles(roles);
+        user.setRoles(roles);
+        user = userRepository.save(user);
 
-        return userMapper.toUserResponse(userRepository.save(user));
+//        Khi tạo user thành công sẽ tạo profile
+        var profileRequest = profileMapper.toProfileCreationRequest(request);
+        profileRequest.setUserId(user.getId());
+        var profileResponse = profileClient.createProfile(profileRequest);
+
+        log.info("Created profile: {}", profileResponse);
+
+        return userMapper.toUserResponse(user);
     }
 
     @PreAuthorize("hasRole('ADMIN')") // Check điều kiện hasRole xong thoả mãn thì mới đi tiếp
