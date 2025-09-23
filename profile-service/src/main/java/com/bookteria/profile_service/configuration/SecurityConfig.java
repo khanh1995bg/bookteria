@@ -1,4 +1,4 @@
-package com.bookteria.identity_service.configuration;
+package com.bookteria.profile_service.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ import org.springframework.web.filter.CorsFilter;
 @EnableMethodSecurity
 public class SecurityConfig {
     private final String[] PUBLIC_ENDPOINTS = {
-        "/users/registration", "/auth/token", "/auth/refresh", "/auth/introspect", "/auth/logout"
+
     };
 
     @Autowired
@@ -68,11 +68,5 @@ public class SecurityConfig {
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
 
         return jwtAuthenticationConverter;
-    }
-
-    // Mã hoá password dùng chung project
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(10);
     }
 }

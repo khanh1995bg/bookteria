@@ -11,7 +11,7 @@ import com.bookteria.identity_service.dto.request.AuthenticationRequest;
 import com.bookteria.identity_service.dto.request.IntrospectRequest;
 import com.bookteria.identity_service.dto.request.LogoutRequest;
 import com.bookteria.identity_service.dto.request.RefreshTokenRequest;
-import com.bookteria.identity_service.dto.response.ApiResponse;
+import com.bookteria.identity_service.dto.ApiResponse;
 import com.bookteria.identity_service.dto.response.AuthenticationResponse;
 import com.bookteria.identity_service.dto.response.IntrospectResponse;
 import com.bookteria.identity_service.service.AuthenticationService;

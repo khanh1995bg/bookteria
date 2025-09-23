@@ -1,6 +1,4 @@
-package com.bookteria.identity_service.configuration;
-
-import java.text.ParseException;
+package com.bookteria.profile_service.configuration;
 
 import com.nimbusds.jwt.SignedJWT;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -8,9 +6,10 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
+
 @Component
 public class CustomJwtDecoder implements JwtDecoder {
-
     @Override
     public Jwt decode(String token) throws JwtException {
         try {

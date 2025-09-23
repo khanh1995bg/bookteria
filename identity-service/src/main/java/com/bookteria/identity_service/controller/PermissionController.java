@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 import com.bookteria.identity_service.dto.request.PermissionRequest;
-import com.bookteria.identity_service.dto.response.ApiResponse;
+import com.bookteria.identity_service.dto.ApiResponse;
 import com.bookteria.identity_service.dto.response.PermissionResponse;
 import com.bookteria.identity_service.service.PermissionService;
 

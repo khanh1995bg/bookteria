@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.bookteria.identity_service.dto.request.UserCreationRequest;
 import com.bookteria.identity_service.dto.request.UserUpdateRequest;
-import com.bookteria.identity_service.dto.response.ApiResponse;
+import com.bookteria.identity_service.dto.ApiResponse;
 import com.bookteria.identity_service.dto.response.UserResponse;
 import com.bookteria.identity_service.service.UserService;
 
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
     UserService userService;
 
-    @PostMapping
+    @PostMapping("/registration")
     ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.createUser(request))

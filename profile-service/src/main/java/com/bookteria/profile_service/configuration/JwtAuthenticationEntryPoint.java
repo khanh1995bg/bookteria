@@ -1,18 +1,16 @@
-package com.bookteria.identity_service.configuration;
+package com.bookteria.profile_service.configuration;
 
-import java.io.IOException;
-
+import com.bookteria.profile_service.dto.ApiResponse;
+import com.bookteria.profile_service.exception.ErrorCode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import com.bookteria.identity_service.dto.ApiResponse;
-import com.bookteria.identity_service.exception.ErrorCode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 
 // Xử lý lỗi 401
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {

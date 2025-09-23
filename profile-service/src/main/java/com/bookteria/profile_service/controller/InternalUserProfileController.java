@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class InternalUserProfileController {
-
     UserProfileService userProfileService;
+
+//    Không expose api này lên api gateway
     @PostMapping("/internal/users")
     UserProfileResponse createProfile(@RequestBody ProfileCreationRequest request) {
         return userProfileService.createProfile(request);
