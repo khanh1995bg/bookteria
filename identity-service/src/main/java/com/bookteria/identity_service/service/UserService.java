@@ -26,6 +26,8 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
 @RequiredArgsConstructor
@@ -56,9 +58,7 @@ public class UserService {
 //        Khi tạo user thành công sẽ tạo profile
         var profileRequest = profileMapper.toProfileCreationRequest(request);
         profileRequest.setUserId(user.getId());
-        var profileResponse = profileClient.createProfile(profileRequest);
-
-        log.info("Created profile: {}", profileResponse);
+        profileClient.createProfile(profileRequest);
 
         return userMapper.toUserResponse(user);
     }

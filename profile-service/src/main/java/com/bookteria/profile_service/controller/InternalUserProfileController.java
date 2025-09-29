@@ -1,5 +1,6 @@
 package com.bookteria.profile_service.controller;
 
+import com.bookteria.profile_service.dto.ApiResponse;
 import com.bookteria.profile_service.dto.request.ProfileCreationRequest;
 import com.bookteria.profile_service.dto.response.UserProfileResponse;
 import com.bookteria.profile_service.service.UserProfileService;
@@ -16,7 +17,9 @@ public class InternalUserProfileController {
 
 //    Không expose api này lên api gateway
     @PostMapping("/internal/users")
-    UserProfileResponse createProfile(@RequestBody ProfileCreationRequest request) {
-        return userProfileService.createProfile(request);
+    ApiResponse<UserProfileResponse> createProfile(@RequestBody ProfileCreationRequest request) {
+        return ApiResponse.<UserProfileResponse>builder()
+                .result(userProfileService.createProfile(request))
+                .build();
     }
 }
